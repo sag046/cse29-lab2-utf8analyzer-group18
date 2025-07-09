@@ -40,6 +40,8 @@ int main(int argc, char *argv[]) {
     printf("Number of code points: %d\n", codepoint_count);
 
     printf("Code points as decimal numbers: ");
+    uint32_t codepoints[100];
+    int cp_index = 0;
     for (int i = 0; i < length_in_bytes;) {
         uint32_t cp = 0;
         unsigned char c = input[i];
@@ -59,6 +61,7 @@ int main(int argc, char *argv[]) {
             bytes = 4;
         }
         printf("%u ", cp);
+        codepoints[cp_index++] = cp;
         i += bytes;
     }
     printf("\n");
@@ -93,6 +96,54 @@ int main(int argc, char *argv[]) {
     }
     printf("\"\n");
 
+    printf("Animal emojis: ");
+    for (int i = 0; i < cp_index; i++) {
+        uint32_t cp = codepoints[i];
+        if ((cp >= 0x1F412 && cp <= 0x1F41F) || (cp >= 0x1F420 && cp <= 0x1F43F)) {
+            if (cp <= 0x7F) {
+                printf("%c", cp);
+            } else if (cp <= 0x7FF) {
+                printf("%c%c", 0xC0 | (cp >> 6), 0x80 | (cp & 0x3F));
+            } else if (cp <= 0xFFFF) {
+                printf("%c%c%c", 0xE0 | (cp >> 12), 0x80 | ((cp >> 6) & 0x3F), 0x80 | (cp & 0x3F));
+            } else {
+                printf("%c%c%c%c", 0xF0 | (cp >> 18), 0x80 | ((cp >> 12) & 0x3F), 0x80 | ((cp >> 6) & 0x3F), 0x80 | (cp & 0x3F));
+            }
+        }
+    }
+    printf("\n");
+
+    if (cp_index > 3) {
+        uint32_t cp = codepoints[3] + 1;
+        printf("Next character of Codepoint at index 3: ");
+        if (cp <= 0x7F) {
+            printf("%c", cp);
+        } else if (cp <= 0x7FF) {
+            printf("%c%c", 0xC0 | (cp >> 6), 0x80 | (cp & 0x3F));
+        } else if (cp <= 0xFFFF) {
+            printf("%c%c%c", 0xE0 | (cp >> 12), 0x80 | ((cp >> 6) & 0x3F), 0x80 | (cp & 0x3F));
+        } else {
+            printf("%c%c%c%c", 0xF0 | (cp >> 18), 0x80 | ((cp >> 12) & 0x3F), 0x80 | ((cp >> 6) & 0x3F), 0x80 | (cp & 0x3F));
+        }
+        printf("\n");
+    }
+
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
