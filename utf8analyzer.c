@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     // implement the UTF-8 analyzer here
 
     //checks whether string is valid ASCII
-    if(!(sizeof(argv) > 127)){
+    if(!(sizeof(argv) < 127)){
         return 1;
     }
 }
