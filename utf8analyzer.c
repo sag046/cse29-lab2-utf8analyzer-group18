@@ -16,4 +16,6 @@ int main(int argc, char *argv[]) {
     if(!(sizeof(argv) < 127)){
         return 1;
     }
+
+    //string input, any character that is lowercase is turned to uppercase
 }
